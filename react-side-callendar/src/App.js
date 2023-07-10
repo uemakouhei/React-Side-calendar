@@ -20,11 +20,11 @@ function App() {
   };
 
   return (
-    <div>
-      <button onClick={handleCalendarOpen}> {calendarOpen ? "close" : "open"} Calendar</button>
+    <CardContent>
+      <Button onClick={handleCalendarOpen}> {calendarOpen ? "close" : "open"} Calendar</Button>
+      <Typography>Selected Date: {selectedDate}</Typography>
       <SideCalendar onChange={handleCalendarChange} open={calendarOpen} onClose={handleCalendarClose} />
-      <p>Selected Date: {selectedDate}</p>
-    </div>
+    </CardContent>
   );
 };
 

@@ -29,6 +29,7 @@ export function SideCalendar({ onChange, open, onClose }) {
     "November",
     "December",
   ];
+
   const [calendarData, setCalendarData] = useState([]);
   const [calendarMonths, setcalendarMonths] = useState([
     new Date().getMonth() + 1,
@@ -42,8 +43,8 @@ export function SideCalendar({ onChange, open, onClose }) {
   const [selectedYear, setselectedYear] = useState(new Date().getFullYear());
   const [AcExpand, setAcExpand] = useState(true);
   const [AcExpand_Y, setAcExpand_Y] = useState(true);
-  const [limitdown, setlimitdown] = useState(10);
-  const [limitupper, setlimitupper] = useState(10);
+  const [limitdown, setlimitdown] = useState(5);
+  const [limitupper, setlimitupper] = useState(5);
   const drawerContentRef = useRef(null);
   useEffect(() => {
     const generateCalendarData = () => {
@@ -103,6 +104,18 @@ export function SideCalendar({ onChange, open, onClose }) {
       onClose();
     }
   };
+  function getDayOfWeek(date , lang) {
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const daysOfWeekJp = ["日" , "月" , "火" , "水" , "木" ,"金" ,"土"];
+    const dayIndex = date.getDay();
+    let dayOfWeek =daysOfWeek[dayIndex];
+    if (lang == "Jp") {
+     dayOfWeek = daysOfWeekJp[dayIndex];
+    }
+    return dayOfWeek;
+  }
+
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -111,9 +124,9 @@ export function SideCalendar({ onChange, open, onClose }) {
       const isAtBottom = Math.abs(scrollTop + clientHeight - scrollHeight) <= 1;
 
       if (isAtBottom && AcExpand_Y) {
-        setlimitupper((prevlimit) => prevlimit + 20);
+        setlimitupper((prevlimit) => prevlimit + 5);
       } else if (scrollTop === 0 && AcExpand_Y) {
-        setlimitdown((prevlimit) => prevlimit + 20);
+        setlimitdown((prevlimit) => prevlimit + 5);
       }
     };
 
@@ -193,6 +206,9 @@ export function SideCalendar({ onChange, open, onClose }) {
                                    primary={
                                      <Typography variant="h6">
                                        {item.date}
+                                       <Typography sx={{ ml : 2}} variant="caption" >
+                                       ({getDayOfWeek(new Date(item.date) , "Jp")})
+                                       </Typography>
                                      </Typography>
                                    }
                                  />
