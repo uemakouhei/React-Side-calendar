@@ -3,7 +3,7 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Button,
+  DialogTitle,
   Divider,
   Drawer,
   List,
@@ -147,7 +147,7 @@ export function SideCalendar({ onChange, open, onClose }) {
           ref={drawerContentRef}
           style={{ height: "100%", overflowY: "auto" }}
         >
-          <ListItem></ListItem>
+          <DialogTitle><Typography variant="h5" >React-Side-Calendar</Typography></DialogTitle>
           {calendarYears.map((yearvalue) => (
             <Accordion
               key={yearvalue}
@@ -196,7 +196,7 @@ export function SideCalendar({ onChange, open, onClose }) {
                              <div>
                                <Divider />
                                <ListItemButton
-                                sx={new Date(item.date).setHours(0, 0, 0, 0) == new Date().setHours(0, 0, 0, 0) ? {pl: 8 , bgcolor : "orange" ,width:"100%"} : { pl : 8}}
+                                sx={new Date(item.date).setHours(0, 0, 0, 0) == new Date().setHours(0, 0, 0, 0) ? {pl: 8 , bgcolor : "orange" ,width:"100%"} : { pl : 8 , bgcolor : ""}}
                                  key={index}
                                  onClick={() => {
                                    handleItemClick(item.date);
