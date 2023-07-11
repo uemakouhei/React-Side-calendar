@@ -54,7 +54,7 @@ export function SideCalendar({ onChange, open, onClose }) {
 
       for (let day = firstDay.getDate(); day <= lastDay.getDate(); day++) {
         viewData.push({
-          date: `${new Date().getFullYear()}/${selectedMonth
+          date: `${selectedYear}/${selectedMonth
             .toString()
             .padStart(2, "0")}/${day.toString().padStart(2, "0")}`,
           event: `Event for ${selectedMonth + 1}/${day}`,
