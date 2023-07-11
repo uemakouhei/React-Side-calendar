@@ -1,5 +1,5 @@
 Sample Code
-````
+````js
 import { Button, Card, CardContent, Chip, Divider, Drawer, Paper, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { SideCalendar } from './react-side-calendar';
