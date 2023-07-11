@@ -65,7 +65,7 @@ export function SideCalendar({ onChange, open, onClose }) {
     };
 
     generateCalendarData();
-  }, [selectedMonth]);
+  }, [selectedMonth ,selectedYear]);
 
   useEffect(() => {
     const ViewData = [];
@@ -159,6 +159,7 @@ export function SideCalendar({ onChange, open, onClose }) {
                     setAcExpand_Y((prev) => !prev);
                     setAcExpand(false);
                     setselectedYear(yearvalue);
+                    console.log(yearvalue);
                   }}
                    sx={(yearvalue ) == new Date().getFullYear() ? {pl: 1 , bgcolor : "orange" ,width:"100%"} : { pl : 1}}>
                   <Typography sx={{ textAlign: "center" , mr:5 }} variant="h4">
@@ -181,7 +182,7 @@ export function SideCalendar({ onChange, open, onClose }) {
                       }}
                     >
                       <AccordionSummary>
-                        <ListItemButton sx={(value - 1) == new Date().getMonth() ? {pl: 3 , bgcolor : "orange" ,width:"100%"} : { pl : 3}}>
+                        <ListItemButton sx={(value - 1) == new Date().getMonth() && (yearvalue ) == new Date().getFullYear() ? {pl: 3 , bgcolor : "orange" ,width:"100%"} : { pl : 3}}>
                         <Typography variant="h4">{value}</Typography>
                         <Typography sx={{ ml: 1 }} variant="caption">
                           {months[value - 1]}
