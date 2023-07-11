@@ -160,7 +160,7 @@ export function SideCalendar({ onChange, open, onClose }) {
                     setAcExpand(false);
                     setselectedYear(yearvalue);
                   }}
-                >
+                   sx={(yearvalue ) == new Date().getFullYear() ? {pl: 1 , bgcolor : "orange" ,width:"100%"} : { pl : 1}}>
                   <Typography sx={{ textAlign: "center" , mr:5 }} variant="h4">
                     {yearvalue}
                   </Typography>
@@ -181,7 +181,7 @@ export function SideCalendar({ onChange, open, onClose }) {
                       }}
                     >
                       <AccordionSummary>
-                        <ListItemButton sx={{ml : 2}}>
+                        <ListItemButton sx={(value - 1) == new Date().getMonth() ? {pl: 3 , bgcolor : "orange" ,width:"100%"} : { pl : 3}}>
                         <Typography variant="h4">{value}</Typography>
                         <Typography sx={{ ml: 1 }} variant="caption">
                           {months[value - 1]}
@@ -195,7 +195,7 @@ export function SideCalendar({ onChange, open, onClose }) {
                              <div>
                                <Divider />
                                <ListItemButton
-                                sx={{ml: 8}}
+                                sx={new Date(item.date).setHours(0, 0, 0, 0) == new Date().setHours(0, 0, 0, 0) ? {pl: 8 , bgcolor : "orange" ,width:"100%"} : { pl : 8}}
                                  key={index}
                                  onClick={() => {
                                    handleItemClick(item.date);
