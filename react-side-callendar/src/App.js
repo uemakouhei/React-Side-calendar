@@ -18,12 +18,12 @@ function App() {
   const handleCalendarClose = () => {
     setCalendarOpen(false);
   };
-
+   
   return (
     <CardContent>
       <Button onClick={handleCalendarOpen}> {calendarOpen ? "close" : "open"} Calendar</Button>
       <Typography>Selected Date: {selectedDate}</Typography>
-      <SideCalendar onChange={handleCalendarChange} open={calendarOpen} onClose={handleCalendarClose} />
+      <SideCalendar lang="Jp"  TopLabel={<Typography variant='h3'>React-Side-Calendar</Typography>} Label={<Button label={selectedDate ? "ここ" : "なし"}>⭐️</Button>} onChange={handleCalendarChange} open={calendarOpen} onClose={handleCalendarClose} highlightFill="#ffcf33" />
     </CardContent>
   );
 };

@@ -11,10 +11,28 @@ import {
   ListItemButton,
   ListItemText,
   Typography,
+  Button,
+  CardContent,
+  Chip,
 } from "@mui/material";
 
-export function SideCalendar({ onChange, open, onClose }) {
+import { motion } from "framer-motion";
+import { Box, Stack } from "@mui/system";
+
+export function SideCalendar({
+  TopLabel,
+  onChange,
+  open,
+  onClose,
+  Label,
+  highlightFill,
+  lang,
+}) {
   //カレンダー配列
+  if (!highlightFill) {
+    highlightFill = "orange";
+  }
+
   const months = [
     "January",
     "February",
@@ -65,7 +83,7 @@ export function SideCalendar({ onChange, open, onClose }) {
     };
 
     generateCalendarData();
-  }, [selectedMonth ,selectedYear]);
+  }, [selectedMonth, selectedYear]);
 
   useEffect(() => {
     const ViewData = [];
@@ -104,18 +122,25 @@ export function SideCalendar({ onChange, open, onClose }) {
       onClose();
     }
   };
-  function getDayOfWeek(date , lang) {
-    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const daysOfWeekJp = ["日" , "月" , "火" , "水" , "木" ,"金" ,"土"];
+  function getDayOfWeek(date) {
+    const daysOfWeek = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const daysOfWeekJp = ["日", "月", "火", "水", "木", "金", "土"];
     const dayIndex = date.getDay();
-    let dayOfWeek =daysOfWeek[dayIndex];
+    let dayOfWeek = daysOfWeek[dayIndex];
     if (lang == "Jp") {
-     dayOfWeek = daysOfWeekJp[dayIndex];
+      dayOfWeek = daysOfWeekJp[dayIndex];
+    } else {
     }
     return dayOfWeek;
   }
-
-
 
   useEffect(() => {
     const handleScroll = () => {
@@ -147,7 +172,10 @@ export function SideCalendar({ onChange, open, onClose }) {
           ref={drawerContentRef}
           style={{ height: "100%", overflowY: "auto" }}
         >
-          <DialogTitle><Typography variant="h5" >React-Side-Calendar</Typography></DialogTitle>
+          <DialogTitle>
+            <Button onClick={onClose}>CLOSE</Button>
+          </DialogTitle>
+          <DialogTitle>{TopLabel}</DialogTitle>
           {calendarYears.map((yearvalue) => (
             <Accordion
               key={yearvalue}
@@ -161,11 +189,33 @@ export function SideCalendar({ onChange, open, onClose }) {
                     setselectedYear(yearvalue);
                     console.log(yearvalue);
                   }}
-                   sx={(yearvalue ) == new Date().getFullYear() ? {pl: 1 , bgcolor : "orange" ,width:"100%"} : { pl : 1}}>
-                  <Typography sx={{ textAlign: "center" , mr:5 }} variant="h4">
-                    {yearvalue}
-                  </Typography>
-                  <Typography variant="caption" sx={{ml:1}}>year</Typography>
+                >
+                  <motion.div
+                    initial={{ opacity: 1, x: "20%" }}
+                    animate={{
+                      opacity: 1,
+                      x: AcExpand_Y ? "40%" : "0",
+                    }}
+                    transition={{ duration: 1.3 }}
+                  >
+                    <Stack
+                      direction="raw"
+                      sx={{
+                        pl: 0,
+                        pr: 10,
+                        width: "100%",
+                        pt: "auto",
+                        pb: "auto",
+                      }}
+                    >
+                      <Typography variant="h4">{yearvalue}</Typography>
+                      {yearvalue == new Date().getFullYear() ? (
+                        <Typography sx={{ ml: 3 }} variant="h4">
+                          👈
+                        </Typography>
+                      ) : null}
+                    </Stack>
+                  </motion.div>
                 </ListItemButton>
               </AccordionSummary>
               {AcExpand_Y ? (
@@ -182,43 +232,90 @@ export function SideCalendar({ onChange, open, onClose }) {
                       }}
                     >
                       <AccordionSummary>
-                        <ListItemButton sx={(value - 1) == new Date().getMonth() && (yearvalue ) == new Date().getFullYear() ? {pl: 3 , bgcolor : "orange" ,width:"100%"} : { pl : 3}}>
-                        <Typography variant="h4">{value}</Typography>
-                        <Typography sx={{ ml: 1 }} variant="caption">
-                          {months[value - 1]}
-                        </Typography>
+                        <ListItemButton
+                        >
+                          <motion.div
+                            style={{ width: "100%" }}
+                            initial={{ opacity: 1, x: 0 }}
+                            animate={{
+                              textAlign: "left",
+                              opacity: 1,
+                              x: AcExpand ? "50%" : 0,
+                            }}
+                            transition={{ duration: 1.0 }}
+                          >
+                            <Stack
+                            direction="raw"
+                            sx={{
+                              pl: 0,
+                              pr: 10,
+                              width: "100%",
+                              pt: "auto",
+                              pb: "auto",
+                            }}
+                          >
+                             <Typography variant="h4">{value}</Typography>
+                            {yearvalue == new Date().getFullYear() && value - 1 == new Date().getMonth() ? (
+                              <Typography sx={{ ml: 3 }} variant="h4">
+                                👈
+                              </Typography>
+                            ) : null}
+                          </Stack>
+                          <Typography variant="caption">
+                              {months[value - 1]}
+                            </Typography>
+                          </motion.div>
+                         
                         </ListItemButton>
                       </AccordionSummary>
                       {AcExpand ? (
-                         <AccordionDetails>
-                         <List>
-                           {calendarData.map((item, index) => (
-                             <div>
-                               <Divider />
-                               <ListItemButton
-                                sx={new Date(item.date).setHours(0, 0, 0, 0) == new Date().setHours(0, 0, 0, 0) ? {pl: 8 , bgcolor : "orange" ,width:"100%"} : { pl : 8 , bgcolor : ""}}
-                                 key={index}
-                                 onClick={() => {
-                                   handleItemClick(item.date);
-                                   onClose();
-                                 }}
-                               >
-                                 <ListItemText
-                                   primary={
-                                     <Typography variant="h6">
-                                       {item.date}
-                                       <Typography sx={{ ml : 2}} variant="caption" >
-                                       ({getDayOfWeek(new Date(item.date) , "Jp")})
-                                       </Typography>
-                                     </Typography>
-                                   }
-                                 />
-                               </ListItemButton>
-                             </div>
-                           ))}
-                         </List>
-                       </AccordionDetails>
-                      ) : (null)}
+                        <AccordionDetails>
+                          <List>
+                            {calendarData.map((item, index) => (
+                              <div>
+                                <Divider />
+                                <ListItemButton
+                                  sx={
+                                    new Date(item.date).setHours(0, 0, 0, 0) ==
+                                    new Date().setHours(0, 0, 0, 0)
+                                      ? {
+                                          pl: 8,
+                                          bgcolor: highlightFill,
+                                          width: "100%",
+                                        }
+                                      : { pl: 8, bgcolor: "" }
+                                  }
+                                  key={index}
+                                  onClick={() => {
+                                    handleItemClick(item.date);
+                                    onClose();
+                                  }}
+                                >
+                                  <ListItemText
+                                    primary={
+                                      <Typography variant="h6">
+                                        {item.date}
+                                        <Typography
+                                          sx={{ ml: 2 }}
+                                          variant="caption"
+                                        >
+                                          (
+                                          {getDayOfWeek(
+                                            new Date(item.date),
+                                            "Jp"
+                                          )}
+                                          )
+                                        </Typography>
+                                      </Typography>
+                                    }
+                                  />
+                                  {Label ? <div>{Label}</div> : null}
+                                </ListItemButton>
+                              </div>
+                            ))}
+                          </List>
+                        </AccordionDetails>
+                      ) : null}
                     </Accordion>
                   ))}{" "}
                 </AccordionDetails>
